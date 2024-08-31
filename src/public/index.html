@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+	<img alt="logo" src="/assets/logo.svg" />
+
+	<form id="form">
+		<div class="input-box">
+			<label>Email</label>
+			<input id="input-email" type="text" name="email"/>
+		</div>
+
+		<div class="input-box">
+			<label>Senha</label>
+			<input id="input-password" type="password" name="senha"/>
+		</div>
+
+		<p id="log-error"></p>
+		<input id="submit-button" type="submit" value="Login"/>
+	</form>
+
+	<div>
+		<a href="/signin">Crie sua conta aqui?</a>
+		<br/><br/>
+		<a href="/map">Entrar como anônimo</a>
+	</div>
+
+	<script>
+		const input_email = document.getElementById('input-email')
+		const input_password = document.getElementById('input-password')
+		const log_error = document.getElementById('log-error')
+		const form = document.getElementById('form')
+
+		form.addEventListener('submit', (ev) => {
+			ev.preventDefault()
+			const email = input_email.value
+			const password = input_password.value
+			const req = { email, password }
+
+			fetch("/api/v1/usuario/login", {
+				method: "POST",
+				body: JSON.stringify(req),
+				headers: {
+					"Content-Type": "application/json",
+				}
+			})
+			.then(resp => {
+				switch(resp.status) {
+					case 200:
+						window.location.href = "/map"
+						break
+
+					default:
+						resp.json()
+						.then(({mensagem}) =>
+							log_error.textContent = mensagem
+						)
+						.catch(err => { throw err })
+						break
+				}
+			})
+			.catch(({mensagem}) =>
+				log_error.textContent = mensagem )
+		})
+	</script>
+</body>
+</html>
