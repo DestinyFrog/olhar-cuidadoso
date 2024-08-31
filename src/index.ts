@@ -1,19 +1,18 @@
 import {config} from 'dotenv'
-import { OpenConnection } from './db/conn.js'
-import { cidades, usuarios } from './db/tables.js'
+import Express from 'express'
 
-( async () => {
-	config()
-	const db = await OpenConnection()
+import UsuarioRouter from './routes/user'
+import Log from './util/log'
 
-	const new_user = {
-		nome: "Calisto",
-		email: "pedrocalizto9@gmail.com",
-		senha: "teract"
-	}
+config()
+Log.Clear()
 
-	await db.insert(usuarios).values(new_user)
-	const data = await db.select().from(usuarios)
-	console.log(data)
-} )
-.call(this)
+const app = Express()
+app.use(Express.json())
+
+app.use(Express.static("src/public") )
+app.use("/api/v1/usuario", UsuarioRouter )
+
+const PORT = process.env['SERVER_PORT'] || 3000
+app.listen(PORT, () =>
+	console.log(`Listening on http://localhost:${PORT}/`) )
