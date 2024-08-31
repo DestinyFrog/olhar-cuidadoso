@@ -38,5 +38,5 @@
 		"outDir": "dist",
 		"rootDir": "src",
 	},
-	"exclude": ["**/dist"]
+	"exclude": ["**/dist", "jest.config.js", "**/test"]
 }
