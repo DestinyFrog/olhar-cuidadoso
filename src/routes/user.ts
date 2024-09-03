@@ -23,56 +23,27 @@ router.post("/login", async (req, res) => {
 	}
 
 	OpenPool()
-		.select()
-		.from(usuarios)
-		.where(sql`${usuarios.email} = ${email}`)
-		.then(([data]) => {
-			if (data) {
-				if (password == data.senha) {
-					res.cookie("id_user", data.id)
-						.json({"mensagem":"Sucesso"})
-				} else {
-					res.status(203)
-						.json({"mensagem":"Senha Incorreta"})
-				}
+	.select()
+	.from(usuarios)
+	.where(sql`${usuarios.email} = ${email}`)
+	.then(([data]) => {
+		if (data) {
+			if (password == data.senha) {
+				res.cookie("id_user", data.id)
+					.json({"mensagem":"Sucesso"})
 			} else {
 				res.status(203)
-					.json({"mensagem":"Usuario não encontrado"})
+					.json({"mensagem":"Senha Incorreta"})
 			}
-		})
-		.catch(err => {
-			Log.Write(err)
-			res.status(500)
-				.json({"mensagem":"Erro na query SQL"})
-		})
-	
-	/*
+		} else {
+			res.status(203)
+				.json({"mensagem":"Usuario não encontrado"})
+		}
 	})
 	.catch(err => {
 		Log.Write(err)
 		res.status(500)
-			.json({"mensagem":"Erro ao acessar o banco de dados"})
-	})
-	*/
-})
-
-router.get("/", async (req, res) => {
-	OpenConnection()
-	.then( db => {
-		db.select().from(usuarios)
-			.then(data => {
-				res.status(200).json(data)
-			})
-			.catch(err => {
-				Log.Write(err)
-				res.status(500)
-					.json({"mensagem":"Error acessing user database"})
-			})
-	} )
-	.catch(err => {
-		Log.Write(err)
-		res.status(500)
-			.json({"mensagem":"Error opening database"})
+			.json({"mensagem":"Erro na query SQL"})
 	})
 })
 
