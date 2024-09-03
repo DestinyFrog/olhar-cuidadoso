@@ -1,0 +1,36 @@
+const input_email = document.getElementById('input-email')
+const input_password = document.getElementById('input-password')
+const log_error = document.getElementById('log-error')
+const form = document.getElementById('form')
+
+form.addEventListener('submit', (ev) => {
+    ev.preventDefault()
+    const email = input_email.value
+    const password = input_password.value
+    const req = { email, password }
+
+    fetch("/api/v1/usuario/login", {
+        method: "POST",
+        body: JSON.stringify(req),
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    .then(resp => {
+        switch(resp.status) {
+            case 200:
+                window.location.href = "/map"
+                break
+
+            default:
+                resp.json()
+                .then(({mensagem}) =>
+                    log_error.textContent = mensagem
+                )
+                .catch(err => { throw err })
+                break
+        }
+    })
+    .catch(({mensagem}) =>
+        log_error.textContent = mensagem )
+})

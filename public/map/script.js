@@ -1,27 +1,17 @@
-// @ts-ignore
-var map = L.map('map').setView([51.505, -0.09], 13);
 
-// @ts-ignore
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+fetch("/api/v1/map")
+.then(resp => {
 
-// @ts-ignore
-if ("geolocation" in navigator) {
-/* geolocation is available */
-	// @ts-ignore
-	navigator.geolocation.getCurrentPosition((position) => {
-		const { coords: {
-			latitude, longitude
-		} } = position
+	switch(resp.status) {
+		case 200:
+			resp.json()
+			.then(({mensagem}) =>
+				console.log(mensagem)
+			)
+			.catch(err => { throw err })
+			break
+	}
 
-		// @ts-ignore
-		L.marker([latitude, longitude]).addTo(map)
-			.bindPopup('A pretty CSS popup.<br> Easily customizable.')
-			.openPopup();
-
-		
-	})
-} else {
-/* geolocation IS NOT available */
-}
+})
+.catch(({mensagem}) =>
+	log_error.textContent = mensagem )
