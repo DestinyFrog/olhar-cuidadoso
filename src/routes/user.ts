@@ -1,7 +1,7 @@
 import { Router } from "express"
-import { OpenConnection } from "../db/conn"
-import { usuarios } from "../db/tables"
-import Log from "../util/log"
+import { OpenConnection, OpenPool } from "../db/conn.js"
+import { usuarios } from "../db/tables.js"
+import Log from "../util/log.js"
 import { sql } from "drizzle-orm"
 
 const router = Router()
@@ -22,36 +22,38 @@ router.post("/login", async (req, res) => {
 		return
 	}
 
-	OpenConnection()
-	.then( db => {
-		db.select()
-			.from(usuarios)
-			.where(sql`${usuarios.email} = ${email}`)
-			.then(([data]) => {
-				if (data) {
-					if (password == data.senha) {
-						res.cookie("id_user", data.id)
-							.json({"mensagem":"Sucesso"})
-					} else {
-						res.status(203)
-							.json({"mensagem":"Senha Incorreta"})
-					}
+	OpenPool()
+		.select()
+		.from(usuarios)
+		.where(sql`${usuarios.email} = ${email}`)
+		.then(([data]) => {
+			if (data) {
+				if (password == data.senha) {
+					res.cookie("id_user", data.id)
+						.json({"mensagem":"Sucesso"})
 				} else {
 					res.status(203)
-						.json({"mensagem":"Usuario não encontrado"})
+						.json({"mensagem":"Senha Incorreta"})
 				}
-			})
-			.catch(err => {
-				Log.Write(err)
-				res.status(500)
-					.json({"mensagem":"Erro na query SQL"})
-			})
-	} )
+			} else {
+				res.status(203)
+					.json({"mensagem":"Usuario não encontrado"})
+			}
+		})
+		.catch(err => {
+			Log.Write(err)
+			res.status(500)
+				.json({"mensagem":"Erro na query SQL"})
+		})
+	
+	/*
+	})
 	.catch(err => {
 		Log.Write(err)
 		res.status(500)
 			.json({"mensagem":"Erro ao acessar o banco de dados"})
 	})
+	*/
 })
 
 router.get("/", async (req, res) => {
@@ -59,8 +61,7 @@ router.get("/", async (req, res) => {
 	.then( db => {
 		db.select().from(usuarios)
 			.then(data => {
-				res.status(200)
-					.json(data)
+				res.status(200).json(data)
 			})
 			.catch(err => {
 				Log.Write(err)
