@@ -6,7 +6,12 @@ class Log {
 	}
 
 	static Write(err:Error) {
-		appendFileSync(this.file_name, err.name+" | "+this.time+" | "+err.message)
+		console.error(err)
+		appendFileSync(this.file_name, err.name+" | "+this.time+" | "+err.message+"\n")
+	}
+
+	static Text(title:string, message:string) {
+		appendFileSync(this.file_name, title+" | "+this.time+" | "+message+"\n")
 	}
 
 	static get time() {
