@@ -1,4 +1,5 @@
 -- Down
+DROP TABLE IF EXISTS `casos_de_dengue`;
 DROP TABLE IF EXISTS `posto_de_saude`;
 DROP TABLE IF EXISTS `bairro`;
 DROP TABLE IF EXISTS `alerta`;
@@ -54,6 +55,16 @@ CREATE TABLE `posto_de_saude`(
 
 	FOREIGN KEY(`id_bairro`) REFERENCES `bairro`(`id`)
 );
+
+CREATE TABLE `casos_de_dengue`(
+	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `id_posto_de_saude` BIGINT UNSIGNED NOT NULL,
+	`casos` BIGINT UNSIGNED,
+	`incidencia` FLOAT,
+
+	FOREIGN KEY(`id_posto_de_saude`) REFERENCES `posto_de_saude`(`id`)
+);
 --
 
 -- POPULATE
@@ -76,6 +87,11 @@ VALUES
 
 INSERT INTO `posto_de_saude` (id_bairro, nome, xpos, ypos, telefone, endereço)
 VALUES
-    (5, 'HMU - Hospital Municipal de Urgências', -23.452886, -46.516211, '551124757422', 'Av. Tiradentes, 3392 - Jardim Bom Clima, Guarulhos - SP, 07196-000'),
-    (1, 'UPA São João/Lavras', -23.402577, -46.446879, '551122292240', 'Estrada Guarulhos-Nazaré, 730 - São João, Guarulhos - SP, 07162-370');
+    (1, 'UBS soberana', -23.402577, -46.446879, '551122292240', 'Estrada Guarulhos-Nazaré, 730 - São João, Guarulhos - SP, 07162-370'),
+	(1, 'UBS seródio', -23.417192087070312, -46.45716961432221, '551124679598', 'Av. Coqueiral, 111 - Cidade Serodio, Guarulhos - SP, 07150-260');
+
+INSERT INTO `casos_de_dengue` (id_posto_de_saude, casos, incidencia)
+VALUES
+	(1, 1515, 5632.2),
+	(1, 1131, 4209.8);
 --

@@ -1,4 +1,4 @@
-import { bigint, double, int, mysqlTable, serial, varchar } from "drizzle-orm/mysql-core";
+import { bigint, double, float, int, mysqlTable, serial, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 export const usuarios = mysqlTable('usuario', {
 	id: serial('id').primaryKey(),
@@ -40,4 +40,12 @@ export const postos_de_saude = mysqlTable('posto_de_saude', {
 	xpos: double('xpos', {}),
 	ypos: double('ypos', {}),
 	id_bairro: int('id_bairro').references(() => bairros.id)
+})
+
+export const casos_de_dengue = mysqlTable('casos_de_dengue', {
+	id: serial('id').primaryKey(),
+	created_at: timestamp('created_at'),
+	casos: int('casos'),
+	incidencia: float('incidencia'),
+	id_posto_de_saude: int('id_posto_de_saude').references(() => postos_de_saude.id)
 })
