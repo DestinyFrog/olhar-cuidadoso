@@ -4,6 +4,8 @@ import Express from 'express'
 import UsuarioRouter from './routes/user.js'
 import MapRouter from './routes/map.js'
 import Log from './util/log.js'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 config()
 Log.Text("Start", "")
@@ -11,7 +13,7 @@ Log.Text("Start", "")
 const app = Express()
 app.use(Express.json())
 
-app.use("/", Express.static("/home/strelka/Projetos/olhar-cuidadoso/public") )
+app.use("/", Express.static( path.join( path.dirname(fileURLToPath(import.meta.url)), '..', 'public') ) )
 
 app.use("/api/v1/usuario", UsuarioRouter )
 app.use("/api/v1/map", MapRouter )
