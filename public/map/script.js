@@ -5,8 +5,8 @@ fetch("/api/v1/map")
 	switch(resp.status) {
 		case 200:
 			resp.json()
-			.then(({mensagem}) =>
-				console.log(mensagem)
+			.then((data) =>
+				console.log(data)
 			)
 			.catch(err => { throw err })
 			break
