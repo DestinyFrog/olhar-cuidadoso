@@ -38,5 +38,5 @@
 		"outDir": "dist",
 		"rootDir": "src",
 	},
-	"exclude": ["**/dist", "jest.config.js", "**/test", "**/public"]
+	"exclude": ["**/dist", "jest.config.js", "**/test", "**/public", "./prisma/seed.ts"]
 }

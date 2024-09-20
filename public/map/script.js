@@ -17,11 +17,18 @@ fetch("/api/v1/map")
 		resp.json()
 		.then((data) =>
 			data.forEach(cidade => {
-				cidade.bairros.forEach(({nome, xpos, ypos}) => {
+				cidade.Bairro.forEach(({nome, xpos, ypos, PostoDeSaude}) => {
 					L.tooltip()
 						.setLatLng( [xpos, ypos] )
 						.setContent(nome)
 						.addTo(map)
+
+						PostoDeSaude.forEach(posto => {
+						L.tooltip()
+							.setLatLng( [posto.xpos, posto.ypos] )
+							.setContent(posto.nome)
+							.addTo(map)
+					})
 				})
 			})
 		)

@@ -6,8 +6,8 @@ const form = document.getElementById('form')
 form.addEventListener('submit', (ev) => {
     ev.preventDefault()
     const email = input_email.value
-    const password = input_password.value
-    const req = { email, password }
+    const senha = input_password.value
+    const req = { email, senha }
 
     fetch("/api/v1/usuario/login", {
         method: "POST",
