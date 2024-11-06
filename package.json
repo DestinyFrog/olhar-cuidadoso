@@ -7,7 +7,7 @@
     "test": "jest",
     "populate": "tsx prisma/seed.ts",
     "build": "tsc",
-    "start": "tsc && node .",
+    "start": "tsc && node dist/index.js",
     "dev": "nodemon src/index.ts"
   },
   "author": "DestinyFrog",
