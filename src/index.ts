@@ -1,7 +1,7 @@
 import {config} from 'dotenv'
 import Express from 'express'
 
-import UsuarioRouter from './routes/usuario.js'
+import UsuarioRouter from './routes/auth.js'
 import MapaRouter from './routes/mapa.js'
 import Log from './util/log.js'
 import path from 'path'
@@ -15,7 +15,7 @@ app.use(Express.json())
 
 app.use("/", Express.static( path.join( path.dirname(fileURLToPath(import.meta.url)), '..', 'public') ) )
 
-app.use("/api/v1/usuario", UsuarioRouter )
+app.use("/api/v1/auth", UsuarioRouter )
 app.use("/api/v1/map", MapaRouter )
 
 app.get("/ping", (req, res) =>

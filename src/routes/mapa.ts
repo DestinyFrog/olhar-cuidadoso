@@ -6,8 +6,6 @@ import { getMapData } from "../models/locals.js"
 const router = Router()
 
 router.get("/", async (req, res) => {
-	const prisma = new PrismaClient()
-
 	getMapData()
 	.then(data => {
 		res.json(data)
@@ -18,8 +16,6 @@ router.get("/", async (req, res) => {
 			.json({
 				mensagem:"Erro na query SQL"})
 	})
-
-	prisma.$disconnect()
 })
 
 export default router

@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client"
+import prisma from "../db/db.js"
 
 export async function getMapData() {
-	const prisma = new PrismaClient()
 
 	const data = await prisma.cidade.findMany( {
 		select: {

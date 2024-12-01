@@ -1,6 +1,7 @@
-import { Router } from "express"
-import Log from "../util/log.js"
-import { PrismaClient } from "@prisma/client"
+import { Router } from 'express'
+import Log from '../util/log.js'
+import prisma from '../db/db.js'
+import jwt from 'jsonwebtoken'
 
 const router = Router()
 
@@ -20,14 +21,12 @@ router.post("/login", async (req, res) => {
 		return
 	}
 
-	const prisma = new PrismaClient()
-
 	prisma.usuario.findFirst( { where: { email } } )
 	.then(data => {
 		if (data) {
 			if (senha == data.senha) {
-				res.cookie("id_user", data.id)
-					.json({mensagem:"Sucesso"})
+				const token = jwt.sign( {id: data.id} , process.env.SECRET )
+				res.json({ token })
 			} else {
 				res.status(203)
 					.json({mensagem:"Senha Incorreta"})
@@ -39,11 +38,8 @@ router.post("/login", async (req, res) => {
 	.catch(err => {
 		Log.Write(err)
 		res.status(500)
-			.json({
-				mensagem:"Erro na query SQL"})
+			.json({mensagem:"Erro na query SQL"})
 	})
-
-	prisma.$disconnect()
 })
 
 router.post("/signin", async (req, res) => {
@@ -69,11 +65,8 @@ router.post("/signin", async (req, res) => {
 		return
 	}
 
-	const prisma = new PrismaClient()
-
 	prisma.usuario.create( {
-		data: {
-			nome, email, senha: senha }
+		data: { nome, email, senha }
 	} )
 	.then(data => {
 		res.cookie("id_user", data.id)
