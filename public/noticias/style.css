@@ -1,0 +1,104 @@
+/* Reset de estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo do site */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* Container geral */
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+}
+
+header .logo {
+    font-size: 36px;
+    margin-left: 20px;
+    display: inline-block;
+}
+
+header nav {
+    float: right;
+    margin-top: 10px;
+}
+
+header nav ul {
+    list-style: none;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* Destaques */
+.destaques {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.destaque-principal {
+    width: 60%;
+}
+
+.destaque-principal img {
+    width: 100%;
+    height: auto;
+}
+
+.destaques-secundarios {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.destaque {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.destaque img {
+    width: 120px;
+    height: 80px;
+}
+
+.destaque h3 a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+
+/* Rodapé */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100vw;
+}
