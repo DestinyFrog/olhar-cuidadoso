@@ -9,20 +9,26 @@
 <body>
 	<img alt="logo" src="/assets/logo.svg" />
 
-	<form>
+	<div>
+		<div class="input-box">
+			<label>Nome</label>
+			<input type="text" name="nome" id="input-nome"/>
+		</div>
+
 		<div class="input-box">
 			<label>Email</label>
-			<input type="text" name="email"/>
+			<input type="text" name="email" id="input-email"/>
 		</div>
 
 		<div class="input-box">
 			<label>Senha</label>
-			<input type="password" name="senha"/>
+			<input type="password" name="senha" id="input-senha"/>
 		</div>
 
-		<button>Login</button>
-	</form>
+		<button id="but-submit">Login</button>
+	</div>
 
 	<a href="/">Já tem sua conta?</a>
+	<script src="./script.js"></script>
 </body>
 </html>
