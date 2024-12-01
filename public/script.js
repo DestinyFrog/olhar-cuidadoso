@@ -9,7 +9,7 @@ form.addEventListener('submit', (ev) => {
     const senha = input_password.value
     const req = { email, senha }
 
-    fetch("/api/v1/usuario/login", {
+    fetch("/api/v1/auth/login", {
         method: "POST",
         body: JSON.stringify(req),
         headers: {
@@ -19,7 +19,11 @@ form.addEventListener('submit', (ev) => {
     .then(resp => {
         switch(resp.status) {
             case 200:
-                window.location.href = "/map"
+				resp.json()
+				.then(data => {
+					localStorage.setItem("token", data.token)
+					window.location.href = "/map"
+				})
                 break
 
             default:
