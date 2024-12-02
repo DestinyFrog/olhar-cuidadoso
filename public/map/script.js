@@ -16,6 +16,11 @@ const healthIcon = L.icon({
 	iconSize: [25, 25]
 })
 
+const alertaIcon = L.icon({
+	iconUrl: '/assets/alerta.svg',
+	iconSize: [25, 25]
+})
+
 let allData = []
 
 fetch("/api/v1/map")
@@ -54,6 +59,21 @@ fetch("/api/v1/map")
 	.catch(({ mensagem }) =>
 		log_error.textContent = mensagem)
 
+fetch("/api/v1/comentario/all")
+.then(resp => resp.json())
+.then(data => {
+	console.log(data)
+	data.forEach((alerta) => {
+		console.log(alerta)
+		L.marker([alerta.xpos, alerta.ypos], { icon: alertaIcon })
+			.addTo(map)
+			.on('click', () => renderAlerta(alerta.nome))
+			
+	})
+})
+.catch((err) =>
+	console.error(err))
+
 function renderBairro(lenBairro, lenCidade) {
 	const cidade = allData[lenCidade]
 	const bairro = cidade.Bairro[lenBairro]
@@ -72,6 +92,12 @@ function renderBairro(lenBairro, lenCidade) {
 		`).join("")
 	}
 	</ul>
+	`
+}
+
+function renderAlerta(nome) {
+	inspetor.innerHTML = `
+	<h3>${nome}</h3>
 	`
 }
 

@@ -3,6 +3,7 @@ import Express from 'express'
 
 import UsuarioRouter from './routes/auth.js'
 import MapaRouter from './routes/mapa.js'
+import ComentarioRouter from './routes/comentario.js'
 import Log from './util/log.js'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -17,6 +18,7 @@ app.use("/", Express.static( path.join( path.dirname(fileURLToPath(import.meta.u
 
 app.use("/api/v1/auth", UsuarioRouter )
 app.use("/api/v1/map", MapaRouter )
+app.use("/api/v1/comentario", ComentarioRouter )
 
 app.get("/ping", (req, res) =>
 	res.end("Hello, World!!"))
