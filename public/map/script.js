@@ -21,6 +21,11 @@ const alertaIcon = L.icon({
 	iconSize: [25, 25]
 })
 
+const cidadeIcon = L.icon({
+	iconUrl: '/assets/cidade.svg',
+	iconSize: [25, 25]
+})
+
 let allData = []
 
 fetch("/api/v1/map")
@@ -33,7 +38,7 @@ fetch("/api/v1/map")
 
 					data.forEach((cidade,lenCidade) => {
 						cidade.Bairro.forEach((bairro,lenBairro) => {
-							L.marker([bairro.xpos, bairro.ypos])
+							L.marker([bairro.xpos, bairro.ypos], {icon: cidadeIcon})
 							.addTo(map)
 							.on('click', () => renderBairro(lenBairro, lenCidade) )
 
@@ -129,3 +134,46 @@ function renderPosto(lenPosto, lenBairro, lenCidade) {
 		</ul>
 		`
 }
+
+const alerta_button = document.getElementById("alert-button")
+const alerta_dialog = document.getElementById("dialog-alerta")
+alerta_dialog.style.display = 'none'
+let opened_dialog = false
+
+alerta_button.addEventListener('click', () => {
+	alerta_dialog.style.display = opened_dialog ? "none" : "flex"
+	opened_dialog = !opened_dialog
+})
+
+const token = localStorage.getItem("token")
+const lista_alertas = document.getElementById("lista-alertas")
+
+const input_nome = document.getElementById("input_nome")
+const but_post = document.getElementById("but-post")		
+
+but_post.addEventListener("click", (ev) => {
+	navigator.geolocation.getCurrentPosition((position) => {
+		let xpos = position.coords.latitude
+		let ypos = position.coords.longitude
+
+		fetch("/api/v1/comentario/postar",
+		{
+			method: "POST",
+			body: JSON.stringify({
+				token,
+				nome: input_nome.value,
+				xpos,
+				ypos
+			}),
+			headers: {
+				"Content-Type": "application/json",
+			}
+		}
+		)
+		.then(resp => resp.json())
+		.then(data => location.reload() )
+		.catch(err => {
+			console.error(err)
+		})
+	})
+})

@@ -13,9 +13,19 @@
 <body>
 	<nav id="inspector"></nav>
 
+    <button id="alert-button">
+        <img src="../assets/urgencia.svg" width="40px" alt="urgencia"/>
+    </button>
+
+    <dialog id="dialog-alerta">
+        <h3 style="text-align: center; width: 100%;">Envie um Alerta</h3>
+        <input type="text" id="input_nome"/>
+		<input type="submit" value="Enviar" id="but-post"></button>
+    </dialog>
+
 	<main>
     <div class="map-container">
-        <h1 class="page-title">Mapa de Eventos</h1>
+        <h1 class="page-title">Mapa</h1>
         <div id="map"></div>
         <button class="info-button">Ver Detalhes</button>
     </div>

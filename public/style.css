@@ -1,0 +1,61 @@
+
+* {
+    font-family: 'Courier New', Courier, monospace;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 100%;
+    max-width: 400px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+
+    margin: 6px 0px;
+}
+
+input[type="text"], input[type="password"] {
+    border-radius: 0;
+    padding: 5px;
+    border: 1px solid black;
+    width: 100%;
+}
+
+input[type="submit"] {
+    border-radius: 0;
+    padding: 5px;
+    border: 1px solid black;
+    width: 100%;
+}
+
+#log-error {
+    color: red;
+    margin: 6px 0px;
+    text-align: center;
+}
+
+.link-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.link {
+    margin: 6px 0px;
+    text-align: center;
+}
