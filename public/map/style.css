@@ -104,3 +104,15 @@ ul {
 	border: 1px solid black;
 	margin: 4px;
 }
+
+
+@media only and (max-width: 600px;) {
+  body {
+    flex-direction: column;
+  }
+
+  #inspetor {
+    height: 320px;
+    width: 100%;
+  }
+}
