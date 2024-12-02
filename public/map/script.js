@@ -140,12 +140,16 @@ const alerta_dialog = document.getElementById("dialog-alerta")
 alerta_dialog.style.display = 'none'
 let opened_dialog = false
 
+const token = localStorage.getItem("token")
+if (!token) {
+	alerta_button.style.display = 'none'
+}
+
 alerta_button.addEventListener('click', () => {
 	alerta_dialog.style.display = opened_dialog ? "none" : "flex"
 	opened_dialog = !opened_dialog
 })
 
-const token = localStorage.getItem("token")
 const lista_alertas = document.getElementById("lista-alertas")
 
 const input_nome = document.getElementById("input_nome")
