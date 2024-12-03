@@ -17,9 +17,24 @@
         <img src="../assets/urgencia.svg" width="40px" alt="urgencia"/>
     </button>
 
+	<button id="sair-button">
+        <img src="../assets/sair.svg" width="40px" alt="sair"/>
+    </button>
+
     <dialog id="dialog-alerta">
         <h3 style="text-align: center; width: 100%;">Envie um Alerta</h3>
-        <input type="text" id="input_nome"/>
+        <input type="text" id="input_nome" placeholder="Defina o risco"/>
+		<div class="area">
+			<div id="foto-loader">
+				
+			</div>
+	
+			<!-- <input type="text" id="base_img" name="base_img"> -->
+			<input type="submit" onclick="takeSnapShot()" id="but-foto" value="Tirar Foto"></button>
+	
+			<!-- <img id="imagemConvertida"> -->
+			<!-- <p id="caminhoImagem" class="caminho-imagem"><a href="" target="_blank" rel="noopener"></a></p> -->
+		</div>
 		<input type="submit" value="Enviar" id="but-post"></button>
     </dialog>
 

@@ -72,7 +72,7 @@ fetch("/api/v1/comentario/all")
 		console.log(alerta)
 		L.marker([alerta.xpos, alerta.ypos], { icon: alertaIcon })
 			.addTo(map)
-			.on('click', () => renderAlerta(alerta.nome))
+			.on('click', () => renderAlerta(alerta))
 			
 	})
 })
@@ -100,9 +100,10 @@ function renderBairro(lenBairro, lenCidade) {
 	`
 }
 
-function renderAlerta(nome) {
+function renderAlerta({nome, imagem}) {
 	inspetor.innerHTML = `
 	<h3>${nome}</h3>
+	<img class="image-alerta" src="/img/${imagem}" alt="${nome}-image"/>
 	`
 }
 
@@ -135,6 +136,12 @@ function renderPosto(lenPosto, lenBairro, lenCidade) {
 		`
 }
 
+const sair_button = document.getElementById("sair-button")
+sair_button.addEventListener('click', () => {
+	localStorage.removeItem("token")
+	location.href = "/"
+})
+
 const alerta_button = document.getElementById("alert-button")
 const alerta_dialog = document.getElementById("dialog-alerta")
 alerta_dialog.style.display = 'none'
@@ -148,6 +155,7 @@ if (!token) {
 alerta_button.addEventListener('click', () => {
 	alerta_dialog.style.display = opened_dialog ? "none" : "flex"
 	opened_dialog = !opened_dialog
+	loadCamera()
 })
 
 const lista_alertas = document.getElementById("lista-alertas")
@@ -181,3 +189,56 @@ but_post.addEventListener("click", (ev) => {
 		})
 	})
 })
+
+let fotoTirada = false
+
+function loadCamera(){
+	//Captura elemento de vídeo
+	var video = document.createElement("video");
+	video.id = 'webCamera'
+		//As opções abaixo são necessárias para o funcionamento correto no iOS
+		video.setAttribute('autoplay', '');
+	    video.setAttribute('muted', '');
+	    video.setAttribute('playsinline', '');
+	    //--
+
+		document.getElementById("foto-loader").innerHTML = ''
+		document.getElementById("foto-loader").appendChild(video)
+	
+	//Verifica se o navegador pode capturar mídia
+	if (navigator.mediaDevices.getUserMedia) {
+		navigator.mediaDevices.getUserMedia({audio: false, video: {facingMode: 'user'}})
+		.then( function(stream) {
+			//Definir o elemento vídeo a carregar o capturado pela webcam
+			if (!fotoTirada)
+				video.srcObject = stream;
+		})
+		.catch(function(error) {
+			alert("Oooopps... Falhou :'(");
+		});
+	}
+}
+
+function takeSnapShot(){
+	//Captura elemento de vídeo
+	var video = document.getElementById("webCamera");
+	
+	//Criando um canvas que vai guardar a imagem temporariamente
+	var canvas = document.createElement('canvas');
+	canvas.id = 'webCamera'
+	canvas.width = video.videoWidth;
+	canvas.height = video.videoHeight;
+	var ctx = canvas.getContext('2d');
+
+	fotoTirada = true
+
+	//Desenhando e convertendo as dimensões
+	ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+	document.getElementById("foto-loader").innerHTML = ''
+	document.getElementById("foto-loader").appendChild(canvas)
+	
+	//Criando o JPG
+	var dataURI = canvas.toDataURL('image/jpeg'); //O resultado é um BASE64 de uma imagem.
+	// document.querySelector("#base_img").value = dataURI;
+}
