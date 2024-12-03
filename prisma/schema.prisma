@@ -34,6 +34,7 @@ model Cidade {
 model Alerta {
   id            Int    @id @default(autoincrement())
   nome          String @db.VarChar(255)
+  imagem		String?
   xpos          Float
   ypos          Float
   aprovacoes    Int    @default(0)
